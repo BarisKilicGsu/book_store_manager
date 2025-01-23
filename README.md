@@ -82,13 +82,25 @@ make setup
 
 4. Build and start all services:
 ```bash
-make build
+sudo make build
 ```
 
 5. Show logs of all services in docker compose:
 ```bash
 make logs
 ```
+
+6. Open the API documentation in your browser for testing and exploring the API:
+```bash
+http://localhost:3000/api#/
+```
+7. Login with the following credentials:
+- email: admin@bookmanager.com
+- password: admin123
+
+8. Enter the access token by clicking the Authorize button located in the top right of the swagger-ui.
+
+9. You can now access the API and test/use the endpoints through the swagger-ui.
 
 ## Seed Data
 
@@ -126,9 +138,6 @@ The API documentation is available at `/api#/` when running the application. It 
 ```bash
 # Unit tests
 npm run test
-
-# E2E tests
-npm run test:e2e
 
 # Test coverage
 npm run test:cov
