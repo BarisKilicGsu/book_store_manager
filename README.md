@@ -66,21 +66,26 @@ The project includes Docker configuration for easy deployment.
 
 1. Clone the repository:
 ```bash
-git clone <repository-url>
-cd book_manager
+git clone https://github.com/BarisKilicGsu/book_store_manager
+cd book_store_manager
 ```
 
-2. Setup the project and install dependencies:
+2. Create a .env file by copying the .env.template file.
+```bash
+cp .env.template .env
+```
+
+3. Setup the project and install dependencies:
 ```bash
 make setup
 ```
 
-3. Build and start all services:
+4. Build and start all services:
 ```bash
-make rebuild
+make build
 ```
 
-4. Show logs of all services in docker compose:
+5. Show logs of all services in docker compose:
 ```bash
 make logs
 ```
@@ -99,16 +104,17 @@ The project includes various Makefile commands for convenience:
 ```bash
 make test          # Run tests
 make test-watch    # Run tests in watch mode
-make test-file     # Run a specific test file
 make test-coverage # Run tests with coverage
 make clean         # Clean up the project
 make setup         # Setup the project
-make rebuild       # Build and start all services
+make build         # Build and start all services
+make rebuild       # Rebuild and start all services
+make rebuild-api   # Rebuild and start only the api service
 make logs          # Show logs
+make logs-api      # Show api logs
 make ps            # Show running containers
 make stop          # Stop all services
 make start         # Start all services
-make logs-api      # Show api logs
 ```
 
 ## API Documentation
@@ -132,3 +138,28 @@ npm run test:cov
 
 The project uses environment variables for configuration. A template file `.env.template` is provided in the root directory. Copy this file to `.env` and update the values according to your environment:
 
+
+## Logging System
+
+The application uses Winston logger for comprehensive logging with the following features:
+
+### Log Types and Storage
+- **Console Logs**: Real-time logs with colorized output for development
+- **Error Logs**: Daily rotating files (`error-YYYY-MM-DD.log`) for error-level logs
+- **Combined Logs**: Daily rotating files (`combined-YYYY-MM-DD.log`) for all log levels
+
+### Log Configuration
+- Logs are stored in the `logs` directory
+- Files are automatically rotated daily
+- Old log files are automatically compressed
+- Configurable retention period and file size limits
+- JSON format for file logs with timestamps
+
+### Environment Variables for Logging
+```bash
+LOG_LEVEL=debug           # Global log level
+LOG_CONSOLE_LEVEL=debug   # Console-specific log level
+LOG_FILE_MAX_SIZE=20m     # Maximum size of each log file
+LOG_MAX_FILES=14d         # How long to keep log files
+LOG_DIRECTORY=logs        # Directory to store log files
+```

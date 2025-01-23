@@ -1,62 +1,64 @@
-.PHONY: rebuild start stop logs ps clean rebuild-api test test-coverage test-watch test-file
+.PHONY: build rebuild start stop logs ps clean rebuild-api test test-coverage test-watch
 
-# Tüm servisleri yeniden build edip başlatır
+# Builds and starts all services
+build:
+	docker compose build
+	docker compose up -d
+
+# Rebuilds and restarts all services
 rebuild:
 	docker compose down
 	docker compose build
 	docker compose up -d
 
-# Sadece API servisini yeniden build eder
+# Rebuilds only the API service
 rebuild-api:
 	docker compose stop api
 	docker compose rm -f api
 	docker compose build api
 	docker compose up -d api
 
-# Docker compose'u başlatır
+# Starts Docker compose
 start:
 	docker compose up -d
 
-# Docker compose'u durdurur
+# Stops Docker compose
 stop:
 	docker compose down
 
-# Container loglarını gösterir
+# Shows container logs
 logs:
 	docker compose logs -f
 
-# API loglarını gösterir
+# Shows API logs
 logs-api:
 	docker compose logs -f api
 
-# Çalışan container'ları listeler
+# Lists running containers
 ps:
 	docker compose ps
 
-# Node modüllerini ve docker volume'larını temizler
+# Cleans node modules and docker volumes
 clean:
 	rm -rf node_modules
 	docker compose down -v
 
-# Projeyi ilk kez kurarken kullanılacak komut
+# Command to use when setting up the project for the first time
 setup:
 	npm install
 	docker compose up -d
 
-# Test komutları
+# Test commands
 
-# Tüm testleri çalıştırır
+# Runs all tests
 test:
 	npm test
 
-# Test coverage raporu oluşturur
+# Generates test coverage report
 test-coverage:
 	npm test -- --coverage
 
-# Testleri watch modunda çalıştırır
+# Runs tests in watch mode
 test-watch:
 	npm test -- --watch
 
-# Belirli bir test dosyasını çalıştırır (TEST_FILE parametresi ile)
-test-file:
-	npm test -- $(TEST_FILE) 
